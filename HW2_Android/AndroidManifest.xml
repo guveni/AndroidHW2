@@ -19,7 +19,7 @@
         android:theme="@style/AppTheme" >
         
         <activity
-            android:name="com.example.hw2_anas_chakfeh.MainActivity"
+            android:name="com.example.hw2.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,10 +28,10 @@
             </intent-filter>
         </activity>
          <service
-  			android:name="com.example.hw2_anas_chakfeh.MyService" >
+  			android:name="com.example.hw2.MyService" >
 		</service>
 		<service
-    	android:name="com.example.hw2_anas_chakfeh.ReceiveTransitionsIntentService"
+    	android:name="com.example.hw2.ReceiveTransitionsIntentService"
     	android:label="@string/app_name"
     	android:exported="false">
 		</service>
