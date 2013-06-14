@@ -38,19 +38,20 @@ OnRemoveGeofencesResultListener{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
+	    
 		if (android.os.Build.VERSION.SDK_INT > 9) {
 		    StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 		    StrictMode.setThreadPolicy(policy);
 		}
+		
 		geofenceManager=new GeofenceManager();
 		geofenceManager.createGeofences();
-		//addGeofences();
+		addGeofences();
 		mInProgress = false;
 		
 		// get your ToggleButton
 		ToggleButton b = (ToggleButton) findViewById(R.id.toggleButton1);
-
+		Log.d("Main", "Button is created and is going to wait for the press.");
 		// attach an OnClickListener
 		b.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
@@ -121,7 +122,7 @@ OnRemoveGeofencesResultListener{
         if (ConnectionResult.SUCCESS == resultCode) {
 
             // In debug mode, log the status
-            Log.d("HW2_Anas_Chakfeh", "Google Play services is available.");
+            Log.d("Main", "Google Play services is available.");
 
             // Continue
             return true;
@@ -184,6 +185,8 @@ OnRemoveGeofencesResultListener{
 	         * can be restarted.
 	         */
 	        if (!servicesConnected()) {
+	        	
+	        	Log.d("Error", "Main: No geofences are available!");
 	            return;
 	        }
 	        /*
@@ -207,6 +210,8 @@ OnRemoveGeofencesResultListener{
 	             * request.
 	             */
 	        }
+	        
+	        Log.d("Main", "Geofences are created.");
 	    }
 	    
 	@Override
@@ -363,7 +368,7 @@ OnRemoveGeofencesResultListener{
 		default:
 			break;
 		}
-		
+		Log.d("Main", "onConnected");
 	}
 
 	@Override

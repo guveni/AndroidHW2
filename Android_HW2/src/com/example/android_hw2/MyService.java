@@ -13,6 +13,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.IBinder;
+import android.os.StrictMode;
 import android.util.Log;
 
 public class MyService extends IntentService {
@@ -35,7 +36,12 @@ public class MyService extends IntentService {
     public int onStartCommand(Intent intent, int flags, int startId) {
     //TODO do something useful
     uri = URI.create("http://vmbaumgarten1.informatik.tu-muenchen.de/2013/info.php");
-	  // Restore preferences
+
+    if (android.os.Build.VERSION.SDK_INT > 9) {
+	    StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+	    StrictMode.setThreadPolicy(policy);
+	}
+    // Restore preferences
       SharedPreferences settings = getSharedPreferences ("pref1",0);
       long userID = settings.getLong("userID", -1);
       if(userID==-1)
@@ -126,7 +132,7 @@ public class MyService extends IntentService {
   private long getID() {
 	  long id = -1;
 	    try {
-	    	id = (Long) client.call("hw2.getID");
+	    	id = (Integer) client.call("hw2.getID");
 	    } catch (XMLRPCException e) {
 	        Log.w("XMLRPC getID", "Error", e);
 	        id = -1;
