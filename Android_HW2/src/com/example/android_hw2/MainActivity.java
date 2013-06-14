@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.Menu;
 import android.widget.CompoundButton;
@@ -38,9 +39,13 @@ OnRemoveGeofencesResultListener{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
+		if (android.os.Build.VERSION.SDK_INT > 9) {
+		    StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+		    StrictMode.setThreadPolicy(policy);
+		}
 		geofenceManager=new GeofenceManager();
 		geofenceManager.createGeofences();
-		
+		//addGeofences();
 		mInProgress = false;
 		
 		// get your ToggleButton

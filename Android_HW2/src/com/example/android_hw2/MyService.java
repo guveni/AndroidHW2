@@ -22,6 +22,11 @@ public class MyService extends IntentService {
 		// TODO Auto-generated constructor stub
 	}
 
+	public MyService() {
+		super(null);
+		// TODO Auto-generated constructor stub
+	}
+	
 	private XMLRPCClient client;
     private URI uri;
 	
@@ -38,7 +43,7 @@ public class MyService extends IntentService {
     	  
           client = new XMLRPCClient(uri);
           long responseID=(long)getID();
-          System.out.println(responseID);
+          Log.d("USERID", ""+responseID);
           
           SharedPreferences.Editor editor = settings.edit();
           editor.putLong("userID", responseID);
