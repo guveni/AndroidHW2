@@ -1,9 +1,0 @@
-INDEX VERSION 1.126+C:\Users\guven\Documents\GitHub\AndroidHW2\.metadata\.plugins\org.eclipse.jdt.core
-927938506.index
-273504895.index
-3534551450.index
-2613809095.index
-1957644165.index
-848856923.index
-2362730304.index
-821655311.index
