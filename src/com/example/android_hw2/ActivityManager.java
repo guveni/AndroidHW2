@@ -51,8 +51,7 @@ OnConnectionFailedListener
 		// Start with the request flag set to false
         mInProgress = false;
 		
-		mActivityRecognitionClient =
-                new ActivityRecognitionClient(mContext, this, this);
+		mActivityRecognitionClient = new ActivityRecognitionClient(mContext, this, this);
 		
 		/*
          * Create the PendingIntent that Location Services uses

@@ -1,7 +1,6 @@
 package com.example.android_hw2;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -18,6 +17,7 @@ public class MainActivity extends Activity
 	ActivityManager activityManager;
 	
 	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -28,13 +28,19 @@ public class MainActivity extends Activity
 		    StrictMode.setThreadPolicy(policy);
 		}
 		
-		geofenceManager=new GeofenceManager(this);
+		Intent intentservice = new Intent(this, MyService.class);;
+		//intentservice.putExtra("mCurrentGeofences", geofenceManager.MyGeofence);
+		startService(intentservice);//TODO
+		geofenceManager=new GeofenceManager(this,intentservice);
 		geofenceManager.createGeofences();
 		geofenceManager.addGeofences();
 		
-		activityManager = new ActivityManager(this);
+		//TODO
+		//activityManager = new ActivityManager(this);
 		
-		final Context mContext = getApplicationContext();
+		//final Context mContext = getApplicationContext();
+		//final Context mContext = getBaseContext();
+		
 		
 		// get your ToggleButton
 		ToggleButton b = (ToggleButton) findViewById(R.id.toggleButton1);
@@ -45,15 +51,19 @@ public class MainActivity extends Activity
 			public void onCheckedChanged(CompoundButton toggleButton,
 					boolean isChecked) {
 				
-				Intent service = new Intent(mContext, MyService.class);
-				service.putExtra("mCurrentGeofences", geofenceManager.MyGeofence);
+				//Intent service = new Intent(mContext, MyService.class);
+				 
+				//service.setClassName("com.example.android_hw2", "MyService");
+				
 				if (isChecked) {
 
-					mContext.startService(service);
-					activityManager.startUpdates();
+				//	mContext.startService(service);
+				//	startService(service);
+				//	activityManager.startUpdates();
 				} else {
-					activityManager.stopUpdates();
-					mContext.stopService(service);
+				//	activityManager.stopUpdates();
+				//	mContext.stopService(service);
+				//	stopService(service);
 				}
 
 			}

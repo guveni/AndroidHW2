@@ -24,12 +24,10 @@ public class MyService extends IntentService {
 
 	public MyService(String name) {
 		super(name);
-		// TODO Auto-generated constructor stub
 	}
 
 	public MyService() {
-		super(null);
-		// TODO Auto-generated constructor stub
+		super("MyService");
 	}
 
 	private XMLRPCClient client;

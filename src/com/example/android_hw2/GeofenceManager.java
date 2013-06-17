@@ -1,6 +1,7 @@
 package com.example.android_hw2;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import android.app.Activity;
@@ -9,6 +10,7 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
 import android.os.Bundle;
+import android.util.Log;
 
 
 import com.google.android.gms.common.ConnectionResult;
@@ -42,14 +44,17 @@ OnRemoveGeofencesResultListener
     
     public ArrayList<Geofence> mCurrentGeofences;
     public ArrayList<MyGeofence> MyGeofence;
+    private Intent intent ;
+    private int requestCode = 0;
     
     Activity mContext;
     
-    public GeofenceManager(Activity mCtx)
+    public GeofenceManager(Activity mCtx,Intent intent)
     {
-    	mContext=mCtx;
-    	mCurrentGeofences = new ArrayList<Geofence>();
-        MyGeofence = new ArrayList<MyGeofence>();
+    	this.intent= intent;
+    	this.mContext=mCtx;
+    	this.mCurrentGeofences = new ArrayList<Geofence>();
+    	this.MyGeofence = null;
     }
 	
 	 public void createGeofences() {
@@ -102,19 +107,22 @@ OnRemoveGeofencesResultListener
 	                GEOFENCE_EXPIRATION_TIME,
 	                Geofence.GEOFENCE_TRANSITION_ENTER|Geofence.GEOFENCE_TRANSITION_EXIT);
 
-	        MyGeofence.add(mGeofenceFroettmaning);
-	        MyGeofence.add(mGeofenceKieferngarten);
-	        MyGeofence.add(mGeofenceStudentenstadt);
-	        MyGeofence.add(mGeofenceAlteHeide);
-	        MyGeofence.add(mGeofenceWholeRegion);
+//	        MyGeofence.add(mGeofenceFroettmaning);
+//	        MyGeofence.add(mGeofenceKieferngarten);
+//	        MyGeofence.add(mGeofenceStudentenstadt);
+//	        MyGeofence.add(mGeofenceAlteHeide);
+//	        MyGeofence.add(mGeofenceWholeRegion);
 	        
 	        
-	        
-	        mCurrentGeofences.add(mGeofenceFroettmaning.toGeofence());
-	        mCurrentGeofences.add(mGeofenceKieferngarten.toGeofence());
-	        mCurrentGeofences.add(mGeofenceStudentenstadt.toGeofence());
-	        mCurrentGeofences.add(mGeofenceAlteHeide.toGeofence());
-	        mCurrentGeofences.add(mGeofenceWholeRegion.toGeofence());
+	        MyGeofence = new ArrayList<MyGeofence>(Arrays.asList(mGeofenceFroettmaning,mGeofenceKieferngarten, mGeofenceStudentenstadt,mGeofenceStudentenstadt,mGeofenceAlteHeide,mGeofenceWholeRegion ));
+	        mCurrentGeofences = new ArrayList<Geofence>(Arrays.asList(mGeofenceFroettmaning.toGeofence()
+	        		,mGeofenceKieferngarten.toGeofence(), mGeofenceStudentenstadt.toGeofence(),mGeofenceStudentenstadt.toGeofence(),mGeofenceAlteHeide.toGeofence(),
+	        		mGeofenceWholeRegion.toGeofence()));
+//	        mCurrentGeofences.add(mGeofenceFroettmaning.toGeofence());
+//	        mCurrentGeofences.add(mGeofenceKieferngarten.toGeofence());
+//	        mCurrentGeofences.add(mGeofenceStudentenstadt.toGeofence());
+//	        mCurrentGeofences.add(mGeofenceAlteHeide.toGeofence());
+//	        mCurrentGeofences.add(mGeofenceWholeRegion.toGeofence());
 	    }
 	 
 	// Holds the location client
@@ -137,8 +145,7 @@ OnRemoveGeofencesResultListener
 		
 	private PendingIntent getTransitionPendingIntent() {
 		        // Create an explicit Intent
-		        Intent intent = new Intent(mContext,
-		        		MyService.class);//ReceiveTransitionsIntentService
+		       // Intent intent = new Intent(mContext,MyService.class);//ReceiveTransitionsIntentService
 		        //sends extra info (GeofenceArray)
 		        intent.putExtra("mCurrentGeofences", MyGeofence);
 		        /*
@@ -146,7 +153,7 @@ OnRemoveGeofencesResultListener
 		         */
 		        return PendingIntent.getService(
 		        		mContext,
-		                0,
+		                requestCode++,
 		                intent,
 		                PendingIntent.FLAG_UPDATE_CURRENT);
 		    }
@@ -189,6 +196,14 @@ OnRemoveGeofencesResultListener
 	             */
 	        }
 	    }
+	
+	private String printString(String[] input){
+		String output = new String("");
+		for (String string : input) {
+			output+=string+" ";
+		}
+		return output;
+	}
 	    
 	@Override
 	public void onAddGeofencesResult(int statusCode, String[] geofenceRequestIds) {
@@ -201,6 +216,7 @@ OnRemoveGeofencesResultListener
           * You can send out a broadcast intent or update the UI.
           * geofences into the Intent's extended data.
           */
+    	 Log.d("GeofenceManager", "status success !!! "+statusCode+ " "+ printString(geofenceRequestIds));
      } else {
      // If adding the geofences failed
          /*
@@ -208,6 +224,7 @@ OnRemoveGeofencesResultListener
           * You can log the error using Log.e() or update
           * the UI.
           */
+    	 Log.d("GeofenceManager", "status failed !!! "+statusCode+ printString(geofenceRequestIds));
      }
      // Turn off the in progress flag and disconnect the client
      mInProgress = false;
