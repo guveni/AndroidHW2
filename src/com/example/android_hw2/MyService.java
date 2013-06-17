@@ -46,8 +46,8 @@ public class MyService extends IntentService {
 
 	
   
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
+    
+    public int onStartCommand2() {
     //TODO do something useful
     uri = URI.create("http://vmbaumgarten1.informatik.tu-muenchen.de/2013/info.php");
 
@@ -56,6 +56,7 @@ public class MyService extends IntentService {
 	    StrictMode.setThreadPolicy(policy);
 	}
     // Restore preferences
+      
       SharedPreferences settings = getSharedPreferences ("pref1",0);
       long userID = settings.getLong("userID", -1);
       if(userID==-1)
@@ -70,7 +71,7 @@ public class MyService extends IntentService {
           editor.commit();
       }
 	  
-	  
+      Log.d("Saved userID", ""+userID);
 	  
     return Service.START_NOT_STICKY;
   }
@@ -96,7 +97,10 @@ public class MyService extends IntentService {
 	}
 
 	protected void onHandleIntent(Intent intent) {
-
+		
+		MyGeofenceAr = (ArrayList<MyGeofence>) intent.getSerializableExtra("mCurrentGeofences");
+		
+		onStartCommand2();
 		onHandleIntentLocationClient(intent);
 
 		onHandleIntentActivityRecognition(intent);
@@ -105,6 +109,7 @@ public class MyService extends IntentService {
 
 	protected void onHandleIntentLocationClient(Intent intent) {
 		// First check for errors
+		
 		if (LocationClient.hasError(intent)) {
 			// Get the error code with a static method
 			int errorCode = LocationClient.getErrorCode(intent);
@@ -137,11 +142,8 @@ public class MyService extends IntentService {
 					triggerIds[i] = triggerList.get(i).getRequestId();
 					// TODO Get the Geofence maager in order find the suitable
 					// Geofence according to ID
-					MyGeofence item = MyGeofenceAr.get(Integer
-							.parseInt(triggerIds[i]) - 1);
-					String response = (String) transfer(userID, msgID++,
-							item.getLatitude(), item.getLongitude(), 5, activityRecognitionType,
-							System.currentTimeMillis());
+					MyGeofence item = MyGeofenceAr.get(Integer.parseInt(triggerIds[i]) - 1);
+					String response = (String) transfer(userID, msgID++,item.getLatitude(), item.getLongitude(), 5, activityRecognitionType,System.currentTimeMillis());
 					Log.d("Service transfer", response);
 				}
 				/*

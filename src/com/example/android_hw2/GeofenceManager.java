@@ -139,6 +139,8 @@ OnRemoveGeofencesResultListener
 		        // Create an explicit Intent
 		        Intent intent = new Intent(mContext,
 		        		MyService.class);//ReceiveTransitionsIntentService
+		        //sends extra info (GeofenceArray)
+		        intent.putExtra("mCurrentGeofences", MyGeofence);
 		        /*
 		         * Return the PendingIntent
 		         */
@@ -323,31 +325,31 @@ OnRemoveGeofencesResultListener
 	@Override
 	public void onConnected(Bundle arg0) {
 		
-		Intent intent = new Intent(mContext,
-        		MyService.class);
-		mContext.startActivity(intent);
+		//Intent intent = new Intent(mContext,MyService.class);
+		//intent.setClassName("com.example.android_hw2", "com.example.android_hw2.MyService");
+		//mContext.startActivity(intent);
 		
 		switch (mRequestType) {
-     case ADD :
-         // Get the PendingIntent for the request
-     	mTransitionPendingIntent =
-                 getTransitionPendingIntent();
-     	
-         // Send a request to add the current geofences
-         mLocationClient.addGeofences(
-         		mCurrentGeofences, mTransitionPendingIntent, this);
-         break;
-     case REMOVE_INTENT :
-         mLocationClient.removeGeofences(
-                 mGeofenceRequestIntent, this);
-         break;
-		case REMOVE_LIST:
-			mLocationClient.removeGeofences(
-                 mGeofencesToRemove, this);
-			break;
-		default:
-			break;
-		}
+		     case ADD :
+		         // Get the PendingIntent for the request
+		     	mTransitionPendingIntent =
+		                 getTransitionPendingIntent();
+		     	
+		         // Send a request to add the current geofences
+		         mLocationClient.addGeofences(
+		         		mCurrentGeofences, mTransitionPendingIntent, this);
+		         break;
+		     case REMOVE_INTENT :
+		         mLocationClient.removeGeofences(
+		                 mGeofenceRequestIntent, this);
+		         break;
+				case REMOVE_LIST:
+					mLocationClient.removeGeofences(
+		                 mGeofencesToRemove, this);
+					break;
+				default:
+					break;
+			}
 		
 	}
 

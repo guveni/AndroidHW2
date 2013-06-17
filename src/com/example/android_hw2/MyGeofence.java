@@ -16,13 +16,16 @@
 
 package com.example.android_hw2;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.android.gms.location.Geofence;
 
 
 /**
  * A single Geofence object, defined by its center (latitude and longitude position) and radius.
  */
-public class MyGeofence {
+public class MyGeofence implements Parcelable{
     // Instance variables
     private final String mId;
     private final double mLatitude;
@@ -40,6 +43,7 @@ public class MyGeofence {
      * validity.
      * @param transition Type of Geofence transition. The value is not checked for validity.
      */
+    
     public MyGeofence(
             String geofenceId,
             double latitude,
@@ -133,4 +137,39 @@ public class MyGeofence {
                        .setExpirationDuration(mExpirationDuration)
                        .build();
     }
+
+	@Override
+	public int describeContents() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel arg0, int arg1) {
+		arg0.writeString(mId);
+		arg0.writeDouble(mLatitude);
+		arg0.writeDouble(mLongitude);
+		arg0.writeFloat(mRadius);
+		arg0.writeLong(mExpirationDuration);
+		arg0.writeInt(mTransitionType);	
+	}
+	
+    public static final Parcelable.Creator<MyGeofence> CREATOR = new Parcelable.Creator<MyGeofence>() {
+		public MyGeofence createFromParcel(Parcel in) {
+		    return new MyGeofence(in);
+		}
+		
+		public MyGeofence[] newArray(int size) {
+		    return new MyGeofence[size];
+		}
+	};
+	
+	private MyGeofence(Parcel in) {
+	mId = in.readString();
+	mLatitude = in.readDouble();
+	mLongitude = in.readDouble();
+	mRadius = in.readFloat();
+	mExpirationDuration = in.readLong();
+	mTransitionType = in.readInt();
+	}
 }

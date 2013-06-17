@@ -20,14 +20,13 @@ public class Util {
 	public static boolean servicesConnected(Context ctx) {
 
         // Check that Google Play services is available
-        int resultCode =
-                GooglePlayServicesUtil.isGooglePlayServicesAvailable(ctx);
+        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(ctx);
 
         // If Google Play services is available
         if (ConnectionResult.SUCCESS == resultCode) {
 
             // In debug mode, log the status
-            Log.d("HW2_Android", "Google Play services is available.");
+            Log.d("Util", "Google Play services is available.");
 
             // Continue
             return true;
