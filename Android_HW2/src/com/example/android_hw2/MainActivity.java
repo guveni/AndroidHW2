@@ -1,37 +1,20 @@
 package com.example.android_hw2;
 
-import java.util.List;
-
 import android.app.Activity;
-import android.app.Dialog;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentSender.SendIntentException;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.util.Log;
 import android.view.Menu;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ToggleButton;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
-import com.google.android.gms.common.GooglePlayServicesClient.OnConnectionFailedListener;
-import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.android.gms.location.LocationClient;
-import com.google.android.gms.location.LocationClient.OnAddGeofencesResultListener;
-import com.google.android.gms.location.LocationClient.OnRemoveGeofencesResultListener;
-import com.google.android.gms.location.LocationStatusCodes;
-
-public class MainActivity extends Activity implements
-ConnectionCallbacks,
-OnConnectionFailedListener,
-OnAddGeofencesResultListener,
-OnRemoveGeofencesResultListener{
+public class MainActivity extends Activity
+{
 
 	GeofenceManager geofenceManager;
+	ActivityManager activityManager;
 	
 	
 	@Override
@@ -43,11 +26,24 @@ OnRemoveGeofencesResultListener{
 		    StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 		    StrictMode.setThreadPolicy(policy);
 		}
+<<<<<<< HEAD
+		geofenceManager=new GeofenceManager(this);
+		geofenceManager.createGeofences();
+		geofenceManager.addGeofences();
+		
+		activityManager = new ActivityManager(this);
+		
+		
+		final Context mContext = getApplicationContext();
+		
+		
+=======
 		
 		geofenceManager=new GeofenceManager();
 		geofenceManager.createGeofences();
 		addGeofences();
 		mInProgress = false;
+>>>>>>> cff3bbb5fad3f193427037e8c7ac262689122fc6
 		
 		// get your ToggleButton
 		ToggleButton b = (ToggleButton) findViewById(R.id.toggleButton1);
@@ -57,14 +53,16 @@ OnRemoveGeofencesResultListener{
 			@Override
 			public void onCheckedChanged(CompoundButton toggleButton,
 					boolean isChecked) {
-				Context context = getApplicationContext();
-				Intent service = new Intent(context, MyService.class);
+				
+				Intent service = new Intent(mContext, MyService.class);
+				service.putExtra("mCurrentGeofences", geofenceManager.MyGeofence);
 				if (isChecked) {
 
-					context.startService(service);
+					mContext.startService(service);
+					activityManager.startUpdates();
 				} else {
-					context.stopService(service);
-
+					activityManager.stopUpdates();
+					mContext.stopService(service);
 				}
 
 			}
@@ -79,13 +77,6 @@ OnRemoveGeofencesResultListener{
 		return true;
 	}
 
-	// Global constants
-	/*
-	 * Define a request code to send to Google Play services This code is
-	 * returned in Activity.onActivityResult
-	 */
-	private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
-
 	/*
 	 * Handle results returned to the FragmentActivity by Google Play services
 	 */
@@ -94,7 +85,7 @@ OnRemoveGeofencesResultListener{
 		// Decide what to do based on the original request code
 		switch (requestCode) {
 
-		case CONNECTION_FAILURE_RESOLUTION_REQUEST:
+		case Util.CONNECTION_FAILURE_RESOLUTION_REQUEST:
 			/*
 			 * If the result code is Activity.RESULT_OK, try to connect again
 			 */
@@ -109,8 +100,10 @@ OnRemoveGeofencesResultListener{
 			}
 
 		}
-
 	}
+<<<<<<< HEAD
+	
+=======
 
 	private boolean servicesConnected() {
 
@@ -432,4 +425,5 @@ OnRemoveGeofencesResultListener{
         mLocationClient.disconnect();
 		
 	}
+>>>>>>> cff3bbb5fad3f193427037e8c7ac262689122fc6
 }
