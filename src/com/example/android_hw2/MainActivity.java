@@ -16,7 +16,7 @@ public class MainActivity extends Activity
 	GeofenceManager geofenceManager;
 	ActivityManager activityManager;
 	
-	
+	protected Intent intentservice ;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -28,9 +28,9 @@ public class MainActivity extends Activity
 		    StrictMode.setThreadPolicy(policy);
 		}
 		
-		Intent intentservice = new Intent(this, MyService.class);;
+		intentservice = new Intent(this, MyService.class);;
 		//intentservice.putExtra("mCurrentGeofences", geofenceManager.MyGeofence);
-		startService(intentservice);//TODO
+		//TODO
 		geofenceManager=new GeofenceManager(this,intentservice);
 		geofenceManager.createGeofences();
 		geofenceManager.addGeofences();
@@ -60,10 +60,12 @@ public class MainActivity extends Activity
 				//	mContext.startService(service);
 				//	startService(service);
 				//	activityManager.startUpdates();
+					startService(intentservice);
 				} else {
 				//	activityManager.stopUpdates();
 				//	mContext.stopService(service);
 				//	stopService(service);
+					startService(intentservice);
 				}
 
 			}
