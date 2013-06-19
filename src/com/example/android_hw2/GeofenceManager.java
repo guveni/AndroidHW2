@@ -263,7 +263,6 @@ OnRemoveGeofencesResultListener
          	errorDialog.show();
          }
      }
-		
 	}
 
 	public void removeGeofences(PendingIntent requestIntent) {
@@ -347,36 +346,29 @@ OnRemoveGeofencesResultListener
 		//mContext.startActivity(intent);
 		
 		switch (mRequestType) {
-		     case ADD :
-		         // Get the PendingIntent for the request
-		     	mTransitionPendingIntent =
-		                 getTransitionPendingIntent();
-		     	
-		         // Send a request to add the current geofences
-		         mLocationClient.addGeofences(
-		         		mCurrentGeofences, mTransitionPendingIntent, this);
-		         break;
-		     case REMOVE_INTENT :
-		         mLocationClient.removeGeofences(
-		                 mGeofenceRequestIntent, this);
-		         break;
+				case ADD :
+				     // Get the PendingIntent for the request
+					mTransitionPendingIntent = getTransitionPendingIntent();
+				 // Send a request to add the current geofences
+				     mLocationClient.addGeofences(mCurrentGeofences, mTransitionPendingIntent, this);
+				     break;
+				case REMOVE_INTENT :
+				     mLocationClient.removeGeofences( mGeofenceRequestIntent, this);
+				     break;
 				case REMOVE_LIST:
-					mLocationClient.removeGeofences(
-		                 mGeofencesToRemove, this);
+					mLocationClient.removeGeofences( mGeofencesToRemove, this);
 					break;
 				default:
 					break;
 			}
-		
 	}
 
 	@Override
 	public void onDisconnected() {
-		
 		// Turn off the request flag
-     mInProgress = false;
-     // Destroy the current location client
-     mLocationClient = null;
+		mInProgress = false;
+		// Destroy the current location client
+		mLocationClient = null;
 	}
 
 	@Override
@@ -404,32 +396,28 @@ OnRemoveGeofencesResultListener
       */
      mInProgress = false;
      mLocationClient.disconnect();
-		
 	}
 
 	@Override
-	public void onRemoveGeofencesByRequestIdsResult(int statusCode,
-			String[] geofenceRequestIds) {
-		// If removing the geocodes was successful
-     if (LocationStatusCodes.SUCCESS == statusCode) {
-         /*
-          * Handle successful removal of geofences here.
-          * You can send out a broadcast intent or update the UI.
-          * geofences into the Intent's extended data.
-          */
-     } else {
-     // If removing the geofences failed
-         /*
-          * Report errors here.
-          * You can log the error using Log.e() or update
-          * the UI.
-          */
-     }
-     // Indicate that a request is no longer in progress
-     mInProgress = false;
-     // Disconnect the location client
-     mLocationClient.disconnect();
-		
+	public void onRemoveGeofencesByRequestIdsResult(int statusCode,String[] geofenceRequestIds) {
+			// If removing the geocodes was successful
+	     if (LocationStatusCodes.SUCCESS == statusCode) {
+	         /*
+	          * Handle successful removal of geofences here.
+	          * You can send out a broadcast intent or update the UI.
+	          * geofences into the Intent's extended data.
+	          */
+	     } else {
+	     // If removing the geofences failed
+	         /*
+	          * Report errors here.
+	          * You can log the error using Log.e() or update
+	          * the UI.
+	          */
+	     }
+	     // Indicate that a request is no longer in progress
+	     mInProgress = false;
+	     // Disconnect the location client
+	     mLocationClient.disconnect();
 	}
-	
 }

@@ -30,13 +30,11 @@ public class MainActivity extends Activity
 		
 		intentservice = new Intent(this, MyService.class);;
 		//intentservice.putExtra("mCurrentGeofences", geofenceManager.MyGeofence);
-		//TODO
 		geofenceManager=new GeofenceManager(this,intentservice);
 		geofenceManager.createGeofences();
 		geofenceManager.addGeofences();
-		
-		//TODO
-		//activityManager = new ActivityManager(this);
+
+		activityManager = new ActivityManager(this);
 		
 		//final Context mContext = getApplicationContext();
 		//final Context mContext = getBaseContext();
@@ -48,8 +46,7 @@ public class MainActivity extends Activity
 		// attach an OnClickListener
 		b.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
-			public void onCheckedChanged(CompoundButton toggleButton,
-					boolean isChecked) {
+			public void onCheckedChanged(CompoundButton toggleButton,boolean isChecked) {
 				
 				//Intent service = new Intent(mContext, MyService.class);
 				 

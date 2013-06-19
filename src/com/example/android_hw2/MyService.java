@@ -100,7 +100,6 @@ public class MyService extends IntentService {
 		
 		onStartCommand2();
 		onHandleIntentLocationClient(intent);
-
 		onHandleIntentActivityRecognition(intent);
 
 	}
